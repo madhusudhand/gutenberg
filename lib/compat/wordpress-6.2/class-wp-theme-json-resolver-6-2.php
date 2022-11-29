@@ -113,4 +113,28 @@ class WP_Theme_JSON_Resolver_6_2 extends WP_Theme_JSON_Resolver_6_1 {
 		$result->set_spacing_sizes();
 		return $result;
 	}
+
+	/**
+	 * Return core's origin config.
+	 *
+	 * @return WP_Theme_JSON_Gutenberg Entity that holds core data.
+	 */
+	public static function get_core_data() {
+		if ( null !== static::$core ) {
+			return static::$core;
+		}
+
+		$config = static::read_json_file( __DIR__ . '/theme.json' );
+		$config = static::translate( $config );
+		/**
+		 * Filters the default data provided by WordPress for global styles & settings.
+		 *
+		 * @param WP_Theme_JSON_Data_Gutenberg Class to access and update the underlying data.
+		 */
+		$theme_json   = apply_filters( 'wp_theme_json_data_default', new WP_Theme_JSON_Data_Gutenberg( $config, 'default' ) );
+		$config       = $theme_json->get_data();
+		static::$core = new WP_Theme_JSON_Gutenberg( $config, 'default' );
+
+		return static::$core;
+	}
 }
