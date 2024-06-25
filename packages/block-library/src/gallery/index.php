@@ -121,6 +121,11 @@ function block_core_gallery_render( $attributes, $content ) {
 		)
 	);
 
+	$processed_content->set_attribute( 'data-wp-interactive', 'core/gallery' );
+	$processed_content->set_attribute( 'data-wp-context', '{"lightbox": true}' );
+	$processed_content->set_attribute( 'data-wp-init', 'callbacks.init' );
+	$processed_content->set_attribute( 'data-wp-on-async--load', 'callbacks.init' );
+
 	// The WP_HTML_Tag_Processor class calls get_updated_html() internally
 	// when the instance is treated as a string, but here we explicitly
 	// convert it to a string.
